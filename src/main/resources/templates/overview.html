@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <!-- Improved viewport for better mobile behavior -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Skaut - termíny</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .panel {
+      transition: all 0.3s ease;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .panel.brown {
+      background-color: #f5e6d3;
+      border-top: 6px solid #c89b6e;
+    }
+
+    .panel.blue {
+      background-color: #e0f0ff;
+      border-top: 6px solid #3b82f6;
+    }
+
+    .panel.green {
+      background-color: #e7f6e7;
+      border-top: 6px solid #22c55e;
+    }
+
+    .panel.red {
+      background-color: #ffe5e5;
+      border-top: 6px solid #ef4444;
+    }
+
+    .panel:hover {
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .panel.brown:hover { background-color: #ecd3b5; border-top-color: #a8764b; }
+    .panel.blue:hover { background-color: #d0e8ff; border-top-color: #2563eb; }
+    .panel.green:hover { background-color: #d2f0d2; border-top-color: #16a34a; }
+    .panel.red:hover { background-color: #ffd0d0; border-top-color: #dc2626; }
+
+    .panel h2 {
+      font-size: 1.25em;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .leader-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 10px 0;
+    }
+
+    .info {
+      color: #555;
+      font-size: 0.9em;
+      margin: 5px 0;
+    }
+
+    .register-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95em;
+      cursor: pointer;
+    }
+
+    .register-btn:hover {
+      background-color: #004494;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    #mobile-selector {
+      display: none;
+      margin-bottom: 20px;
+      font-size: 1em;
+      padding: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-container {
+        display: block;
+      }
+      .panel {
+        display: none;
+      }
+      .panel.active {
+        display: block;
+      }
+      #mobile-selector {
+        display: block;
+      }
+
+      /* Optional: test mobile detection visually */
+      /* body { background-color: #fffae5 !important; } */
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #d2f0d2;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .modal-content.brown { background-color: #f5e6d3; border-top: 6px solid #c89b6e; }
+    .modal-content.blue { background-color: #e0f0ff; border-top: 6px solid #3b82f6; }
+    .modal-content.green { background-color: #e7f6e7; border-top: 6px solid #22c55e; }
+    .modal-content.red { background-color: #ffe5e5; border-top: 6px solid #ef4444; }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+
+  <script th:inline="javascript">
+    const showPopup = [[${showPopup}]];
+    function openModal() {
+      if (showPopup) {
+        document.getElementById("myModal").style.display = "block";
+      }
+    }
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("myModal")) {
+        closeModal();
+      }
+    }
+  </script>
+
+  <!-- Fixed JS: Applies selected panel on page load -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const selector = document.getElementById('mobile-selector');
+      const panels = document.querySelectorAll('.panel');
+
+      function updatePanels() {
+        const selectedGroup = selector.value;
+        panels.forEach((panel) => {
+          panel.classList.toggle('active', panel.dataset.group === selectedGroup);
+        });
+      }
+
+      selector.addEventListener('change', updatePanels);
+
+      // Trigger once on load
+      updatePanels();
+    });
+  </script>
+
+</head>
+<body onload="openModal()">
+
+<div id="myModal" class="modal">
+  <div class="modal-content" th:classappend="${group} == 'Vlci' ? ' brown' :
+                   (${group} == 'Bobři' ? ' green' :
+                   (${group} == 'Mungové' ? ' blue' :
+                   (${group} == 'Mustangové' ? ' red' : '')))">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Žádost odeslána</p>
+  </div>
+</div>
+
+<!-- Mobile group selector -->
+<select id="mobile-selector">
+  <option value="Vlci" th:if="${groupSetup[Vlci].enabled}">Vlci</option>
+  <option value="Mungové" th:if="${groupSetup[Mungové].enabled}">Mungové</option>
+  <option value="Mustangové" th:if="${groupSetup[Mustangové].enabled}">Mustangové</option>
+  <option value="Bobři" th:if="${groupSetup[Bobři].enabled}">Bobři</option>
+</select>
+
+<div class="grid-container" th:style="'grid-template-columns: repeat(' + ${enabledGroupsCount} + ', 1fr);'">
+
+  <div class="panel brown active" th:if="${groupSetup[Vlci].enabled}" data-group="Vlci">
+    <h2>Vlci</h2>
+    <img th:src="@{${groupSetup[Vlci].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Vlci].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Vlci].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Vlci].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${VlciApproved} + ' • Čeká: ' + ${VlciPending}">Členové: 12 • Čeká: 2</p>
+    <form action="register">
+      <input hidden="true" name="group" value="Vlci"/>
+      <button class="register-btn">Registrovat</button>
+    </form>
+  </div>
+
+  <div class="panel blue" th:if="${groupSetup[Mungové].enabled}" data-group="Mungové">
+    <h2>Mungové</h2>
+    <img th:src="@{${groupSetup[Mungové].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Mungové].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Mungové].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Mungové].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${MungovéApproved} + ' • Čeká: ' + ${MungovéPending}">Členové: 12 • Čeká: 2</p>
+    <form action="register">
+      <input hidden="true" name="group" value="Mungové"/>
+      <button class="register-btn">Registrovat</button>
+    </form>
+  </div>
+
+  <div class="panel red" th:if="${groupSetup[Mustangové].enabled}" data-group="Mustangové">
+    <h2>Mustangové</h2>
+    <img th:src="@{${groupSetup[Mustangové].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Mustangové].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Mustangové].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Mustangové].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${MustangovéApproved} + ' • Čeká: ' + ${MustangovéPending}">Členové: 12 • Čeká: 2</p>
+    <form action="register">
+      <input hidden="true" name="group" value="Mustangové"/>
+      <button class="register-btn">Registrovat</button>
+    </form>
+  </div>
+
+  <div class="panel green" th:if="${groupSetup[Bobři].enabled}" data-group="Bobři">
+    <h2>Bobři</h2>
+    <img th:src="@{${groupSetup[Bobři].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Bobři].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Bobři].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Bobři].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${BobřiApproved} + ' • Čeká: ' + ${BobřiPending}">Členové: 12 • Čeká: 2</p>
+    <form action="register">
+      <input hidden="true" name="group" value="Bobři"/>
+      <button class="register-btn">Registrovat</button>
+    </form>
+  </div>
+
+</div>
+
+</body>
+</html>

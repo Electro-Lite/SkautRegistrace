@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Nastavení</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+	
+	.return-btn {
+  	  position: absolute;
+  	  top: 20px;
+  	  right: 20px;
+  	  background-color: #3b82f6; /* Blue background */
+  	  color: white;
+  	  padding: 10px 14px;
+  	  border-radius: 6px;
+  	  text-decoration: none;
+  	  font-weight: bold;
+  	  font-size: 2em;
+  	  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  	  transition: background-color 0.3s ease;
+	}
+
+	.return-btn:hover {
+  	  background-color: #2563eb;
+	}
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #333;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .field-group label {
+      min-width: 120px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="password"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    select,
+    input[type="text"] {
+      width: 200px;
+    }
+
+    input[type="password"] {
+      width: 150px;
+    }
+
+    .group-settings {
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .group-settings h3 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .group-settings label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 0.95em;
+    }
+
+    .group-settings input,
+    .group-settings select {
+      width: 100%;
+      margin-top: 4px;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .checkbox-label {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #2563eb;
+    }
+
+    @media (max-width: 1024px) {
+      .groups-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .groups-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="scheduler" class="return-btn">◀</a>
+  <h1>Nastavení aplikace</h1>
+  <div class="container" >
+    <form method="post" action="saveSetup">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	
+      <!-- General Settings -->
+      <div class="section">
+        <h2>Obecné nastavení</h2>
+
+        <div class="field-group">
+          <label for="activeYear">Aktivní rok</label>
+          <select id="activeYear" name="activeYear">
+            <option th:selected="${activeYear == 2023}" value="2023">2023</option>
+            <option th:selected="${activeYear == 2024}" value="2024">2024</option>
+            <option th:selected="${activeYear == 2025}" value="2025">2025</option>
+            <option th:selected="${activeYear == 2026}" value="2026">2026</option>
+            <option th:selected="${activeYear == 2027}" value="2027">2027</option>
+            <option th:selected="${activeYear == 2028}" value="2028">2028</option>
+          </select>
+
+          <label for="adminPassword">Heslo admina</label>
+          <input type="password" id="adminPassword" name="adminPassword">
+
+          <label for="userPassword">Heslo uživatele</label>
+          <input type="password" id="userPassword" name="userPassword">
+        </div>
+      </div>
+
+      <!-- Group Settings -->
+      <div class="section">
+        <h2>Nastavení skupin</h2>
+        <div class="groups-grid">
+          
+          <!-- Group 1: Vlci -->
+          <div class="group-settings">
+            <h3>Vlci</h3>
+            <label class="checkbox-label">
+              <input type="checkbox" name="groups[Vlci].enabled" th:checked="${groups_Vlci_enabled}"> Aktivní
+            </label>
+
+			<label>Den v týdnu</label>
+			  <select name="groups[Vlci].weekday">
+  				<option value="Pondělí" th:selected="${groups_Vlci_day == 'Pondělí'}">Pondělí</option>
+  				<option value="Úterý" th:selected="${groups_Vlci_day == 'Úterý'}">Úterý</option>
+  				<option value="Středa" th:selected="${groups_Vlci_day == 'Středa'}">Středa</option>
+  				<option value="Čtvrtek" th:selected="${groups_Vlci_day == 'Čtvrtek'}">Čtvrtek</option>
+  				<option value="Pátek" th:selected="${groups_Vlci_day == 'Pátek'}">Pátek</option>
+			</select>
+
+            <label>Čas</label>
+            <input type="text" name="groups[Vlci].time" th:value="${groups_Vlci_time}" placeholder="16:00">
+
+            <label>Vedoucí</label>
+            <input type="text" name="groups[Vlci].leader" th:value="${groups_Vlci_leader}">
+
+            <label>Obrázek (URL)</label>
+            <input type="text" name="groups[Vlci].leaderImage" th:value="${groups_Vlci_leaderImage}">
+          </div>
+
+          <!-- Group 2: Mungové -->
+          <div class="group-settings">
+            <h3>Mungové</h3>
+            <label class="checkbox-label">
+              <input type="checkbox" name="groups[Mungové].enabled" th:checked="${groups_Mungové_enabled}"> Aktivní
+            </label>
+
+            <label>Den v týdnu</label>
+			  <select name="groups[Mungové].weekday">
+  				<option value="Pondělí" th:selected="${groups_Mungové_day == 'Pondělí'}">Pondělí</option>
+  				<option value="Úterý" th:selected="${groups_Mungové_day == 'Úterý'}">Úterý</option>
+  				<option value="Středa" th:selected="${groups_Mungové_day == 'Středa'}">Středa</option>
+  				<option value="Čtvrtek" th:selected="${groups_Mungové_day == 'Čtvrtek'}">Čtvrtek</option>
+  				<option value="Pátek" th:selected="${groups_Mungové_day == 'Pátek'}">Pátek</option>
+			  </select>
+
+            <label>Čas</label>
+            <input type="text" name="groups[Mungové].time" placeholder="16:00" th:value="${groups_Mungové_time}">
+
+            <label>Vedoucí</label>
+            <input type="text" name="groups[Mungové].leader" th:value="${groups_Mungové_leader}">
+
+            <label>Obrázek (URL)</label>
+            <input type="text" name="groups[Mungové].leaderImage" th:value="${groups_Mungové_leaderImage}">
+          </div>
+
+          <!-- Group 3: Mustangové -->
+          <div class="group-settings">
+            <h3>Mustangové</h3>
+            <label class="checkbox-label">
+              <input type="checkbox" name="groups[Mustangové].enabled" th:checked="${groups_Mustangové_enabled}"> Aktivní
+            </label>
+
+            <label>Den v týdnu</label>
+			<select name="groups[Mustangové].weekday">
+			  <option value="Pondělí" th:selected="${groups_Mustangové_day == 'Pondělí'}">Pondělí</option>
+			  <option value="Úterý" th:selected="${groups_Mustangové_day == 'Úterý'}">Úterý</option>
+			  <option value="Středa" th:selected="${groups_Mustangové_day == 'Středa'}">Středa</option>
+			  <option value="Čtvrtek" th:selected="${groups_Mustangové_day == 'Čtvrtek'}">Čtvrtek</option>
+			  <option value="Pátek" th:selected="${groups_Mustangové_day == 'Pátek'}">Pátek</option>
+			</select>
+
+
+            <label>Čas</label>
+            <input type="text" name="groups[Mustangové].time" placeholder="16:00" th:value="${groups_Mustangové_time}">
+
+            <label>Vedoucí</label>
+            <input type="text" name="groups[Mustangové].leader" th:value="${groups_Mustangové_leader}">
+
+            <label>Obrázek (URL)</label>
+            <input type="text" name="groups[Mustangové].leaderImage" th:value="${groups_Mustangové_leaderImage}">
+          </div>
+
+          <!-- Group 4: Bobři -->
+          <div class="group-settings">
+            <h3>Bobři</h3>
+            <label class="checkbox-label">
+              <input type="checkbox" name="groups[Bobři].enabled" th:checked="${groups_Bobři_enabled}"> Aktivní
+            </label>
+
+            <label>Den v týdnu</label>
+			<select name="groups[Bobři].weekday">
+			  <option value="Pondělí" th:selected="${groups_Bobři_day == 'Pondělí'}">Pondělí</option>
+			  <option value="Úterý" th:selected="${groups_Bobři_day == 'Úterý'}">Úterý</option>
+			  <option value="Středa" th:selected="${groups_Bobři_day == 'Středa'}">Středa</option>
+			  <option value="Čtvrtek" th:selected="${groups_Bobři_day == 'Čtvrtek'}">Čtvrtek</option>
+			  <option value="Pátek" th:selected="${groups_Bobři_day == 'Pátek'}">Pátek</option>
+			</select>
+
+            <label>Čas</label>
+            <input type="text" name="groups[Bobři].time" placeholder="16:00" th:value="${groups_Bobři_time}">
+
+            <label>Vedoucí</label>
+            <input type="text" name="groups[Bobři].leader" th:value="${groups_Bobři_leader}">
+
+            <label>Obrázek (URL)</label>
+            <input type="text" name="groups[Bobři].leaderImage" th:value="${groups_Bobři_leaderImage}">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn">Uložit změny</button>
+      </div>
+
+    </form>
+  </div>
+</body>
+</html>

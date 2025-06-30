@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skaut - termíny</title>
+<style>
+.registration-form {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 30px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.registration-form h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.registration-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-form label {
+  margin: 10px 0 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.registration-form input,
+.registration-form select,
+.registration-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+}
+
+.registration-form input:focus,
+.registration-form select:focus,
+.registration-form textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.registration-form .register-btn {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.registration-form .register-btn:hover {
+  background-color: #004494;
+}
+	/* Color themes for group panels */
+	.registration-form.brown {
+	  background-color: #f5e6d3;  /* Light brown */
+	  border-top: 6px solid #c89b6e;
+	}
+
+	.registration-form.blue {
+	  background-color: #e0f0ff;  /* Soft blue */
+	  border-top: 6px solid #3b82f6;
+	}
+
+	.registration-form.green {
+	  background-color: #e7f6e7;  /* Pale green */
+	  border-top: 6px solid #22c55e;
+	}
+
+	.registration-form.red {
+	  background-color: #ffe5e5;  /* Soft red */
+	  border-top: 6px solid #ef4444;
+	  }
+</style>
+</head>
+<body>
+<div id="formDiv" class="registration-form"
+     th:classappend="${group} == 'Vlci' ? ' brown' :
+                     (${group} == 'Bobři' ? ' green' :
+                     (${group} == 'Mungové' ? ' blue' :
+                     (${group} == 'Mustangové' ? ' red' : '')))">
+
+  <h2>Registrační formulář</h2>
+  <h3 th:text="${group}"></h3>
+  <form method="POST" action="submitRegistration">
+  	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  	<input type="hidden" th:name="group" th:value="${group}" />
+  	
+    <label for="name">Jméno dítěte</label>
+    <input type="text" id="name" name="name" placeholder="Vaše jméno" required>
+
+    <label for="contact">Jméno rodiče</label>
+    <input type="text" id="nameParent" name="parentName" placeholder="Jméno rodiče">
+    
+    <label for="contact">Kontakt rodiče</label>
+    <input type="text" id="contact" name="contact" placeholder="E-mail nebo telefon" required>
+
+    <label for="preference">Jak moc vám termín vyhovuje?</label>
+    <select id="preference" name="preference" required>
+      <option value="">-- Vyberte možnost --</option>
+      <option value="skvele">Skvěle</option>
+      <option value="prijatelne">Přijatelně</option>
+      <option value="pri-nejhorsim">Při nejhorším</option>
+    </select>
+
+    <label for="notes">Poznámky</label>
+    <textarea id="notes" name="notes" rows="4" placeholder="Zde můžete napsat poznámku..."></textarea>
+
+    <button type="submit" class="register-btn">Odeslat registraci</button>
+  </form>
+</div>
+
+</body>
+</html>

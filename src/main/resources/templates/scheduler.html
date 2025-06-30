@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Přiřazení členů do skupin</title>
+<style>
+body {
+	font-family: "Segoe UI", Tahoma, sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 20px;
+}
+
+.setup-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #3b82f6; /* Blue background */
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 2em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease;
+}
+
+.setup-btn:hover {
+  background-color: #2563eb;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 20px;
+}
+
+.panel {
+	transition: all 0.3s ease;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	padding: 15px;
+}
+
+.panel h2 {
+	font-size: 1.25em;
+	margin: 10px 0;
+	text-align: center;
+	color: #333;
+}
+
+.member {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	padding: 10px;
+	margin: 8px 0;
+	text-align: center;
+	font-size: 0.95em;
+}
+
+.member:hover {
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Subclass for pending members */
+.member.pending {
+	background-color: #fff8e1; /* light yellow */
+	border-color: #facc15; /* amber-400 */
+	color: #92400e;
+}
+
+/* Subclass for approved members */
+.member.approved {
+	background-color: #e7f6e7; /* pale green */
+	border-color: #22c55e;
+	color: #166534;
+}
+
+/* Subclass for rejected members */
+.member.rejected {
+	background-color: #ffe5e5; /* soft red */
+	border-color: #ef4444;
+	color: #991b1b;
+}
+
+.panel:hover {
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.panel.brown {
+	background-color: #f5e6d3;
+	border-top: 6px solid #c89b6e;
+}
+
+.panel.brown:hover {
+	background-color: #ecd3b5;
+	border-top-color: #a8764b;
+}
+
+.panel.blue {
+	background-color: #e0f0ff;
+	border-top: 6px solid #3b82f6;
+}
+
+.panel.blue:hover {
+	background-color: #d0e8ff;
+	border-top-color: #2563eb;
+}
+
+.panel.green {
+	background-color: #e7f6e7;
+	border-top: 6px solid #22c55e;
+}
+
+.panel.green:hover {
+	background-color: #d2f0d2;
+	border-top-color: #16a34a;
+}
+
+.panel.red {
+	background-color: #ffe5e5;
+	border-top: 6px solid #ef4444;
+}
+
+.panel.red:hover {
+	background-color: #ffd0d0;
+	border-top-color: #dc2626;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box; /* Important to include padding inside width */
+}
+
+@media ( max-width : 768px) {
+	.grid-container {
+		display: block;
+	}
+}
+</style>
+<style>
+.registration-modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.registration-modal.active {
+  display: block;
+}
+
+.modal-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  font-size: 22px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95em;
+  cursor: pointer;
+}
+
+.btn.approve {
+  background-color: #22c55e;
+  color: white;
+}
+
+.btn.reject {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn.delete {
+  background-color: #6b7280; /* slate gray */
+  color: white;
+}
+
+.btn.delete:hover {
+  background-color: #4b5563; /* darker on hover */
+}
+</style>
+<script>
+function openRegistrationModal(id) {
+  document.getElementById(id).classList.add("active");
+}
+
+function closeRegistrationModal(id) {
+  document.getElementById(id).classList.remove("active");
+}
+
+// Close modal when clicking outside content
+document.addEventListener("click", function (event) {
+  const modals = document.querySelectorAll(".registration-modal");
+  modals.forEach(modal => {
+    if (event.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+	<a href="setup" class="setup-btn">⚙</a>
+	
+	<h1 style="text-align: center; margin-bottom: 30px;">Přiřazení
+		členů do skupin</h1>
+
+	<div class="grid-container" th:style="'display: grid; grid-template-columns: repeat(' + ${enabledGroupsCount} + ', 1fr); gap: 20px;'">
+		<!-- Vlci -->
+		<div class="panel brown" th:if="${groupSetup[Vlci].enabled}">
+			<h2>Vlci</h2>
+			<div th:each="member : ${Vlci}">
+				<div Class="member" 
+					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
+					th:text="${member.name}"
+					th:title="'poznámka: ' + (${member.notes} ?: '')"
+					th:class="'member ' + ${member.status}"
+					th:style="'border-left: 6px solid ' + (${member.preference} == 'skvele' ? 'green' : (${member.preference} == 'prijatelne' ? 'yellow' : (${member.preference} == 'pri-nejhorsim' ? 'red' : 'gray')))">Jan
+					Novák</div>
+			</div>
+		</div>
+
+		<!-- Mungové -->
+		<div class="panel blue" th:if="${groupSetup[Mungové].enabled}">
+			<h2>Mungové</h2>
+			<div th:each="member : ${Mungové}">
+				<div class="member" th:text="${member.name}"
+					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
+					th:title="'poznámka: ' + (${member.notes} ?: '')"
+					th:class="'member ' + ${member.status}"
+					th:style="'border-left: 6px solid ' + (${member.preference} == 'skvele' ? 'green' : (${member.preference} == 'prijatelne' ? 'yellow' : (${member.preference} == 'pri-nejhorsim' ? 'red' : 'gray')))">Jan
+					Novák</div>
+			</div>
+		</div>
+
+		<!-- Mustangové -->
+		<div class="panel red" th:if="${groupSetup[Mustangové].enabled}">
+			<h2>Mustangové</h2>
+			<div th:each="member : ${Mustangové}">
+				<div class="member" th:text="${member.name}"
+					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
+					th:title="'poznámka: ' + (${member.notes} ?: '')"
+					th:class="'member ' + ${member.status}"
+					th:style="'border-left: 6px solid ' + (${member.preference} == 'skvele' ? 'green' : (${member.preference} == 'prijatelne' ? 'yellow' : (${member.preference} == 'pri-nejhorsim' ? 'red' : 'gray')))">Jan
+					Novák</div>
+			</div>
+		</div>
+
+		<!-- Bobři -->
+		<div class="panel green" th:if="${groupSetup[Bobři].enabled}">
+			<h2>Bobři</h2>
+			<div th:each="member : ${Bobři}">
+				<div class="member" th:text="${member.name}"
+					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
+					th:title="'poznámka: ' + (${member.notes} ?: '')"
+					th:class="'member ' + ${member.status}"
+					th:style="'border-left: 6px solid ' + (${member.preference} == 'skvele' ? 'green' : (${member.preference} == 'prijatelne' ? 'yellow' : (${member.preference} == 'pri-nejhorsim' ? 'red' : 'gray')))">Jan
+					Novák</div>
+			</div>
+		</div>
+
+	</div>
+	
+	
+<div th:each="groupEntry : ${groups}">
+  <div th:each="member : ${groupEntry.value}">
+				<!-- Modal Structure -->
+				<div th:id="'reg-' + ${member.id}" class="registration-modal">
+					<div class="modal-content" onclick="event.stopPropagation()">
+						<span class="close-btn" th:onclick="'closeRegistrationModal(' + '\'reg-' + ${member.id} + '\')'">&times;</span>
+
+						<h3>Registrace</h3>
+
+						<p>
+							<strong>Jméno:</strong> <span th:text="${member.name}">Jan
+								Novák</span>
+						</p>
+						<p>
+							<strong>Kontakt:</strong> <span th:text="${member.contact}">jan@example.com</span>
+						</p>
+						<p>
+							<strong>Preference:</strong> <span th:text="${member.preference}">jan@example.com</span>
+						</p>
+						<p>
+							<strong>Status:</strong> <span th:text="${member.status}">jan@example.com</span>
+						</p>
+						<p>
+							<strong>Datum vytvoření:</strong> <span th:text="${member.createdAt}">Jan
+								Novák</span>
+						</p>
+						<p>
+							<strong>Poznámka:</strong> 
+						</p>
+						<div style="margin-top: 10px;">
+							<textarea class="textarea" rows="3" th:text="${member.notes ?: 'žádná poznámka'}"></textarea>
+						</div>
+						<div class="modal-actions">
+							<form method="post" action="setStatus">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+								<input type="hidden" name="id" th:value="${member.id}" />
+								<input type="hidden" name="status" th:value="approved" />
+								<button type="submit" class="btn approve">Schválit</button>
+							</form>
+							<form method="post" action="deleteRegistration">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+								<input type="hidden" name="id" th:value="${member.id}" />
+								<button type="submit" class="btn delete">Odstranit</button>
+							</form>
+							<form method="post" action="setStatus">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+								<input type="hidden" name="id" th:value="${member.id}" />
+								<input type="hidden" name="status" th:value="rejected" />
+								<button type="submit" class="btn reject">Zamítnout</button>
+							</form>
+						</div>
+					</div>
+				</div>
+  </div>
+</div>
+				
+</body>
+</html>
