@@ -38,4 +38,5 @@ out/
 
 
 ### Settings  with pk ###
-\src\main\resources\application.properties
+/src\main\resources\application.properties
+src/components/secrets/
