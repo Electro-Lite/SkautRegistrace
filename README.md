@@ -51,14 +51,16 @@ Make sure you have PostgreSQL installed and running. Configure the connection de
 ---
 
 ## Screenshots
-
+![screenshots](login.png)
 ### Parent UI
 
 ![screenshots](overview.png)
 
+
 ### Admin Panel
 
-![screenshots](images/admin-panel.png)
+![screenshots](adminPanel.png)
+![screenshots](setup.png)
 
 *(Replace image paths with actual locations if different.)*
 
