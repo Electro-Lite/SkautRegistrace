@@ -54,7 +54,7 @@ Make sure you have PostgreSQL installed and running. Configure the connection de
 
 ### Parent UI
 
-![screenshots](images/parent-ui.png)
+![screenshots](overview.png)
 
 ### Admin Panel
 
