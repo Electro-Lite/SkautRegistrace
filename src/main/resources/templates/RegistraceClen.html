@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skaut - termíny</title>
+<link rel="icon" th:href="@{/images/icon2.png}" type="image/png" />
 <style>
 .registration-form {
   background: #fff;
@@ -61,44 +62,42 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
+</style>
+<style th:inline="text">
 .registration-form .register-btn:hover {
   background-color: #004494;
 }
-	/* Color themes for group panels */
-	.registration-form.brown {
-	  background-color: #f5e6d3;  /* Light brown */
-	  border-top: 6px solid #c89b6e;
-	}
+/* Color themes for group panels */
+.registration-form.G1 {
+  background-color: [[${groupSetup['G1'].lightColor}]];
+  border-top: 6px solid [[${groupSetup['G1'].coreColor}]];
+}
 
-	.registration-form.blue {
-	  background-color: #e0f0ff;  /* Soft blue */
-	  border-top: 6px solid #3b82f6;
-	}
+.registration-form.G2 {
+  background-color: [[${groupSetup['G2'].lightColor}]];
+  border-top: 6px solid [[${groupSetup['G2'].coreColor}]];
+}
 
-	.registration-form.green {
-	  background-color: #e7f6e7;  /* Pale green */
-	  border-top: 6px solid #22c55e;
-	}
+.registration-form.G3 {
+  background-color: [[${groupSetup['G3'].lightColor}]];
+  border-top: 6px solid [[${groupSetup['G3'].coreColor}]];
+}
 
-	.registration-form.red {
-	  background-color: #ffe5e5;  /* Soft red */
-	  border-top: 6px solid #ef4444;
-	  }
+.registration-form.G4 {
+  background-color: [[${groupSetup['G4'].lightColor}]];
+  border-top: 6px solid [[${groupSetup['G4'].coreColor}]];
+}
 </style>
+
 </head>
 <body>
-<div id="formDiv" class="registration-form"
-     th:classappend="${group} == 'Vlci' ? ' brown' :
-                     (${group} == 'Bobři' ? ' green' :
-                     (${group} == 'Mungové' ? ' blue' :
-                     (${group} == 'Mustangové' ? ' red' : '')))">
+<div id="formDiv" class="registration-form" th:classappend="${group.id}">
 
   <h2>Registrační formulář</h2>
-  <h3 th:text="${group}"></h3>
+  <h3 th:text="${group.name}"></h3>
   <form method="POST" action="submitRegistration">
   	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-  	<input type="hidden" th:name="group" th:value="${group}" />
+  	<input type="hidden" th:name="groupId" th:value="${group.id}" />
   	
     <label for="name">Jméno dítěte</label>
     <input type="text" id="name" name="name" placeholder="Vaše jméno" required>

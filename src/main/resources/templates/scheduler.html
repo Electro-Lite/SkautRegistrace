@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Přiřazení členů do skupin</title>
+<link rel="icon" th:href="@{/images/icon2.png}" type="image/png" />
 <style>
 body {
 	font-family: "Segoe UI", Tahoma, sans-serif;
@@ -88,46 +89,6 @@ body {
 
 .panel:hover {
 	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.panel.brown {
-	background-color: #f5e6d3;
-	border-top: 6px solid #c89b6e;
-}
-
-.panel.brown:hover {
-	background-color: #ecd3b5;
-	border-top-color: #a8764b;
-}
-
-.panel.blue {
-	background-color: #e0f0ff;
-	border-top: 6px solid #3b82f6;
-}
-
-.panel.blue:hover {
-	background-color: #d0e8ff;
-	border-top-color: #2563eb;
-}
-
-.panel.green {
-	background-color: #e7f6e7;
-	border-top: 6px solid #22c55e;
-}
-
-.panel.green:hover {
-	background-color: #d2f0d2;
-	border-top-color: #16a34a;
-}
-
-.panel.red {
-	background-color: #ffe5e5;
-	border-top: 6px solid #ef4444;
-}
-
-.panel.red:hover {
-	background-color: #ffd0d0;
-	border-top-color: #dc2626;
 }
 
 .textarea {
@@ -220,6 +181,51 @@ body {
   background-color: #4b5563; /* darker on hover */
 }
 </style>
+<style th:inline="text"> /*Group colors*/
+  /* G1 Default style */
+  #panel-[[${groupSetup[G1].id}]] {
+    background-color: [[${groupSetup[G1].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G1].coreColor}]];
+  }
+  /* G1 Hover style */
+  #panel-[[${groupSetup[G1].id}]]:hover {
+    background-color: [[${groupSetup[G1].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G1].hoverColor}]];
+  }
+  
+  /* G2 Default style */
+  #panel-[[${groupSetup[G2].id}]] {
+    background-color: [[${groupSetup[G2].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G2].coreColor}]];
+  }
+  /* G2 Hover style */
+  #panel-[[${groupSetup[G2].id}]]:hover {
+    background-color: [[${groupSetup[G2].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G2].hoverColor}]];
+  }
+  
+  /* G3 Default style */
+  #panel-[[${groupSetup[G3].id}]] {
+    background-color: [[${groupSetup[G3].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G3].coreColor}]];
+  }
+  /* G3 Hover style */
+  #panel-[[${groupSetup[G3].id}]]:hover {
+    background-color: [[${groupSetup[G3].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G3].hoverColor}]];
+  }
+  
+  /* G4 Default style */
+  #panel-[[${groupSetup[G4].id}]] {
+    background-color: [[${groupSetup[G4].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G4].coreColor}]];
+  }
+  /* G4 Hover style */
+  #panel-[[${groupSetup[G4].id}]]:hover {
+    background-color: [[${groupSetup[G4].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G4].hoverColor}]];
+  }
+</style>
 <script>
 function openRegistrationModal(id) {
   document.getElementById(id).classList.add("active");
@@ -235,7 +241,7 @@ document.addEventListener("click", function (event) {
   modals.forEach(modal => {
     if (event.target === modal) {
       modal.classList.remove("active");
-    }
+    }	
   });
 });
 </script>
@@ -249,9 +255,9 @@ document.addEventListener("click", function (event) {
 
 	<div class="grid-container" th:style="'display: grid; grid-template-columns: repeat(' + ${enabledGroupsCount} + ', 1fr); gap: 20px;'">
 		<!-- Vlci -->
-		<div class="panel brown" th:if="${groupSetup[Vlci].enabled}">
-			<h2>Vlci</h2>
-			<div th:each="member : ${Vlci}">
+		<div class="panel brown" th:if="${groupSetup[G1].enabled}" th:id="'panel-' + ${groupSetup[G1].id}">
+			<h2 th:text="${groupSetup[G1].name}">Vlci</h2>
+			<div th:each="member : ${G1}">
 				<div Class="member" 
 					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
 					th:text="${member.name}"
@@ -263,9 +269,9 @@ document.addEventListener("click", function (event) {
 		</div>
 
 		<!-- Mungové -->
-		<div class="panel blue" th:if="${groupSetup[Mungové].enabled}">
-			<h2>Mungové</h2>
-			<div th:each="member : ${Mungové}">
+		<div class="panel blue" th:if="${groupSetup[G2].enabled}" th:id="'panel-' + ${groupSetup[G2].id}">
+			<h2 th:text="${groupSetup[G2].name}">Mungové</h2>
+			<div th:each="member : ${G2}">
 				<div class="member" th:text="${member.name}"
 					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
 					th:title="'poznámka: ' + (${member.notes} ?: '')"
@@ -276,9 +282,9 @@ document.addEventListener("click", function (event) {
 		</div>
 
 		<!-- Mustangové -->
-		<div class="panel red" th:if="${groupSetup[Mustangové].enabled}">
-			<h2>Mustangové</h2>
-			<div th:each="member : ${Mustangové}">
+		<div class="panel red" th:if="${groupSetup[G3].enabled}" th:id="'panel-' + ${groupSetup[G3].id}">
+			<h2 th:text="${groupSetup[G3].name}">Mustangové</h2>
+			<div th:each="member : ${G3}">
 				<div class="member" th:text="${member.name}"
 					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
 					th:title="'poznámka: ' + (${member.notes} ?: '')"
@@ -289,9 +295,9 @@ document.addEventListener("click", function (event) {
 		</div>
 
 		<!-- Bobři -->
-		<div class="panel green" th:if="${groupSetup[Bobři].enabled}">
-			<h2>Bobři</h2>
-			<div th:each="member : ${Bobři}">
+		<div class="panel green" th:if="${groupSetup[G4].enabled}" th:id="'panel-' + ${groupSetup[G4].id}">
+			<h2 th:text="${groupSetup[G4].name}">Bobři</h2>
+			<div th:each="member : ${G4}">
 				<div class="member" th:text="${member.name}"
 					th:onclick="'openRegistrationModal(' + '\'reg-' + ${member.id} + '\')'" 
 					th:title="'poznámka: ' + (${member.notes} ?: '')"
@@ -312,10 +318,10 @@ document.addEventListener("click", function (event) {
 						<span class="close-btn" th:onclick="'closeRegistrationModal(' + '\'reg-' + ${member.id} + '\')'">&times;</span>
 
 						<h3>Registrace</h3>
-
 						<p>
-							<strong>Jméno:</strong> <span th:text="${member.name}">Jan
-								Novák</span>
+							<strong>Jméno dítěte:</strong> <span th:text="${member.name}">Jan Novák</span>
+						</p>
+							<strong>Jméno rodiče:</strong> <span th:text="${member.parentName}">Jan Novák</span>
 						</p>
 						<p>
 							<strong>Kontakt:</strong> <span th:text="${member.contact}">jan@example.com</span>
@@ -327,8 +333,7 @@ document.addEventListener("click", function (event) {
 							<strong>Status:</strong> <span th:text="${member.status}">jan@example.com</span>
 						</p>
 						<p>
-							<strong>Datum vytvoření:</strong> <span th:text="${member.createdAt}">Jan
-								Novák</span>
+							<strong>Datum vytvoření:</strong> <span th:text="${member.createdAt}">Jan Novák</span>
 						</p>
 						<p>
 							<strong>Poznámka:</strong> 

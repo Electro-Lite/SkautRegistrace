@@ -5,6 +5,7 @@
   <!-- Improved viewport for better mobile behavior -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Skaut - termíny</title>
+  <link rel="icon" th:href="@{/images/icon2.png}" type="image/png" />
   <style>
     body {
       font-family: "Segoe UI", Tahoma, sans-serif;
@@ -20,26 +21,6 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 15px;
       text-align: center;
-    }
-
-    .panel.brown {
-      background-color: #f5e6d3;
-      border-top: 6px solid #c89b6e;
-    }
-
-    .panel.blue {
-      background-color: #e0f0ff;
-      border-top: 6px solid #3b82f6;
-    }
-
-    .panel.green {
-      background-color: #e7f6e7;
-      border-top: 6px solid #22c55e;
-    }
-
-    .panel.red {
-      background-color: #ffe5e5;
-      border-top: 6px solid #ef4444;
     }
 
     .panel:hover {
@@ -152,6 +133,51 @@
       cursor: pointer;
     }
   </style>
+<style th:inline="text"> /*Group colors*/
+  /* G1 Default style */
+  #panel-[[${groupSetup[G1].id}]] {
+    background-color: [[${groupSetup[G1].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G1].coreColor}]];
+  }
+  /* G1 Hover style */
+  #panel-[[${groupSetup[G1].id}]]:hover {
+    background-color: [[${groupSetup[G1].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G1].hoverColor}]];
+  }
+  
+  /* G2 Default style */
+  #panel-[[${groupSetup[G2].id}]] {
+    background-color: [[${groupSetup[G2].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G2].coreColor}]];
+  }
+  /* G2 Hover style */
+  #panel-[[${groupSetup[G2].id}]]:hover {
+    background-color: [[${groupSetup[G2].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G2].hoverColor}]];
+  }
+  
+  /* G3 Default style */
+  #panel-[[${groupSetup[G3].id}]] {
+    background-color: [[${groupSetup[G3].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G3].coreColor}]];
+  }
+  /* G3 Hover style */
+  #panel-[[${groupSetup[G3].id}]]:hover {
+    background-color: [[${groupSetup[G3].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G3].hoverColor}]];
+  }
+  
+  /* G4 Default style */
+  #panel-[[${groupSetup[G4].id}]] {
+    background-color: [[${groupSetup[G4].lightColor}]];
+    border-top: 6px solid [[${groupSetup[G4].coreColor}]];
+  }
+  /* G4 Hover style */
+  #panel-[[${groupSetup[G4].id}]]:hover {
+    background-color: [[${groupSetup[G4].hoverLightColor}]];
+    border-top-color: [[${groupSetup[G4].hoverColor}]];
+  }
+</style>
 
   <script th:inline="javascript">
     const showPopup = [[${showPopup}]];
@@ -193,11 +219,26 @@
 </head>
 <body onload="openModal()">
 
-<div id="myModal" class="modal">
-  <div class="modal-content" th:classappend="${group} == 'Vlci' ? ' brown' :
-                   (${group} == 'Bobři' ? ' green' :
-                   (${group} == 'Mungové' ? ' blue' :
-                   (${group} == 'Mustangové' ? ' red' : '')))">
+<div id="myModal" class="modal" th:if="${group == 'G1'}">
+  <div class="modal-content" th:style="|background-color: ${groupSetup[G1]?.lightColor}; border-top: 6px solid ${groupSetup[G1]?.coreColor}|">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Žádost odeslána</p>
+  </div>
+</div>
+<div id="myModal" class="modal" th:if="${group == 'G2'}">
+  <div class="modal-content" th:style="|background-color: ${groupSetup[G2]?.lightColor}; border-top: 6px solid ${groupSetup[G2]?.coreColor}|">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Žádost odeslána</p>
+  </div>
+</div>
+<div id="myModal" class="modal" th:if="${group == 'G3'}">
+  <div class="modal-content" th:style="|background-color: ${groupSetup[G3]?.lightColor}; border-top: 6px solid ${groupSetup[G3]?.coreColor}|">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Žádost odeslána</p>
+  </div>
+</div>
+<div id="myModal" class="modal" th:if="${group == 'G4'}">
+  <div class="modal-content" th:style="|background-color: ${groupSetup[G4]?.lightColor}; border-top: 6px solid ${groupSetup[G4]?.coreColor}|">
     <span class="close" onclick="closeModal()">&times;</span>
     <p>Žádost odeslána</p>
   </div>
@@ -205,58 +246,58 @@
 
 <!-- Mobile group selector -->
 <select id="mobile-selector">
-  <option value="Vlci" th:if="${groupSetup[Vlci].enabled}">Vlci</option>
-  <option value="Mungové" th:if="${groupSetup[Mungové].enabled}">Mungové</option>
-  <option value="Mustangové" th:if="${groupSetup[Mustangové].enabled}">Mustangové</option>
-  <option value="Bobři" th:if="${groupSetup[Bobři].enabled}">Bobři</option>
+  <option value="Vlci" th:if="${groupSetup[G1].enabled}">Vlci</option>
+  <option value="Mungové" th:if="${groupSetup[G2].enabled}">Mungové</option>
+  <option value="Mustangové" th:if="${groupSetup[G3].enabled}">Mustangové</option>
+  <option value="Bobři" th:if="${groupSetup[G4].enabled}">Bobři</option>
 </select>
 
 <div class="grid-container" th:style="'grid-template-columns: repeat(' + ${enabledGroupsCount} + ', 1fr);'">
 
-  <div class="panel brown active" th:if="${groupSetup[Vlci].enabled}" data-group="Vlci">
-    <h2>Vlci</h2>
-    <img th:src="@{${groupSetup[Vlci].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
-    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Vlci].leader}">Chyba</span></p>
-    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Vlci].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Vlci].time}">Chyba</span></p>
-    <p class="info" th:text="'Členové: ' + ${VlciApproved} + ' • Čeká: ' + ${VlciPending}">Členové: 12 • Čeká: 2</p>
+  <div class="panel brown active" th:if="${groupSetup[G1].enabled}" data-group="Vlci" th:id="'panel-' + ${groupSetup[G1].id}">
+    <h2 th:text="${groupSetup[G1].name}">Vlci</h2>
+    <img th:src="@{${groupSetup[G1].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[G1].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[G1].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[G1].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${G1Approved} + ' • Čeká: ' + ${G1Pending}">Členové: 12 • Čeká: 2</p>
     <form action="register">
-      <input hidden="true" name="group" value="Vlci"/>
+      <input hidden="true" name="group" value="G1"/>
       <button class="register-btn">Registrovat</button>
     </form>
   </div>
 
-  <div class="panel blue" th:if="${groupSetup[Mungové].enabled}" data-group="Mungové">
-    <h2>Mungové</h2>
-    <img th:src="@{${groupSetup[Mungové].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
-    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Mungové].leader}">Chyba</span></p>
-    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Mungové].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Mungové].time}">Chyba</span></p>
-    <p class="info" th:text="'Členové: ' + ${MungovéApproved} + ' • Čeká: ' + ${MungovéPending}">Členové: 12 • Čeká: 2</p>
+  <div class="panel blue" th:if="${groupSetup[G2].enabled}" data-group="Mungové" th:id="'panel-' + ${groupSetup[G2].id}">
+    <h2 th:text="${groupSetup[G2].name}">Mungové</h2>
+    <img th:src="@{${groupSetup[G2].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[G2].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[G2].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[G2].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${G2Approved} + ' • Čeká: ' + ${G2Pending}">Členové: 12 • Čeká: 2</p>
     <form action="register">
-      <input hidden="true" name="group" value="Mungové"/>
+      <input hidden="true" name="group" value="G2"/>
       <button class="register-btn">Registrovat</button>
     </form>
   </div>
 
-  <div class="panel red" th:if="${groupSetup[Mustangové].enabled}" data-group="Mustangové">
-    <h2>Mustangové</h2>
-    <img th:src="@{${groupSetup[Mustangové].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
-    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Mustangové].leader}">Chyba</span></p>
-    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Mustangové].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Mustangové].time}">Chyba</span></p>
-    <p class="info" th:text="'Členové: ' + ${MustangovéApproved} + ' • Čeká: ' + ${MustangovéPending}">Členové: 12 • Čeká: 2</p>
+  <div class="panel red" th:if="${groupSetup[G3].enabled}" data-group="Mustangové" th:id="'panel-' + ${groupSetup[G3].id}">
+    <h2 th:text="${groupSetup[G3].name}">Mustangové</h2>
+    <img th:src="@{${groupSetup[G3].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[G3].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[G3].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[G3].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${G3Approved} + ' • Čeká: ' + ${G3Pending}">Členové: 12 • Čeká: 2</p>
     <form action="register">
-      <input hidden="true" name="group" value="Mustangové"/>
+      <input hidden="true" name="group" value="G3"/>
       <button class="register-btn">Registrovat</button>
     </form>
   </div>
 
-  <div class="panel green" th:if="${groupSetup[Bobři].enabled}" data-group="Bobři">
-    <h2>Bobři</h2>
-    <img th:src="@{${groupSetup[Bobři].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
-    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[Bobři].leader}">Chyba</span></p>
-    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[Bobři].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[Bobři].time}">Chyba</span></p>
-    <p class="info" th:text="'Členové: ' + ${BobřiApproved} + ' • Čeká: ' + ${BobřiPending}">Členové: 12 • Čeká: 2</p>
+  <div class="panel green" th:if="${groupSetup[G4].enabled}" data-group="G4" th:id="'panel-' + ${groupSetup[G4].id}">
+    <h2 th:text="${groupSetup[G4].name}">Bobři</h2>
+    <img th:src="@{${groupSetup[G4].imageUrl}}" alt="obrázek vedoucího" class="leader-img">
+    <p class="info"><strong>Vedoucí:</strong> <span th:text="${groupSetup[G4].leader}">Chyba</span></p>
+    <p class="info"><strong>Den:</strong> <span th:text="${groupSetup[G4].day}">Chyba</span> • <strong>Čas:</strong> <span th:text="${groupSetup[G4].time}">Chyba</span></p>
+    <p class="info" th:text="'Členové: ' + ${G4Approved} + ' • Čeká: ' + ${G4Pending}">Členové: 12 • Čeká: 2</p>
     <form action="register">
-      <input hidden="true" name="group" value="Bobři"/>
+      <input hidden="true" name="group" value="G4"/>
       <button class="register-btn">Registrovat</button>
     </form>
   </div>

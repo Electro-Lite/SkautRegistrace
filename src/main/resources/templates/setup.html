@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Nastavení</title>
+  <link rel="icon" th:href="@{/images/icon2.png}" type="image/png" />
   <style>
     body {
       font-family: "Segoe UI", Tahoma, sans-serif;
@@ -131,6 +132,15 @@
       text-align: center;
       margin-top: 30px;
     }
+    
+    input[type="color"] {
+  		width: 60px;
+  		height: 40px;
+  		padding: 0;
+  		border: none;
+  		background: none;
+	}
+    
 
     .btn {
       padding: 10px 20px;
@@ -197,107 +207,131 @@
           
           <!-- Group 1: Vlci -->
           <div class="group-settings">
-            <h3>Vlci</h3>
+            <h3 th:text="${groups_G1_name}">Vlci</h3>
             <label class="checkbox-label">
-              <input type="checkbox" name="groups[Vlci].enabled" th:checked="${groups_Vlci_enabled}"> Aktivní
+              <input type="checkbox" name="groups[G1].enabled" th:checked="${groups_G1_enabled}"> 
             </label>
+            
+            <label>Název skupiny</label>
+			<input type="text" name="groups[G1].name" th:value="${groups_G1_name}">
 
 			<label>Den v týdnu</label>
-			  <select name="groups[Vlci].weekday">
-  				<option value="Pondělí" th:selected="${groups_Vlci_day == 'Pondělí'}">Pondělí</option>
-  				<option value="Úterý" th:selected="${groups_Vlci_day == 'Úterý'}">Úterý</option>
-  				<option value="Středa" th:selected="${groups_Vlci_day == 'Středa'}">Středa</option>
-  				<option value="Čtvrtek" th:selected="${groups_Vlci_day == 'Čtvrtek'}">Čtvrtek</option>
-  				<option value="Pátek" th:selected="${groups_Vlci_day == 'Pátek'}">Pátek</option>
+			  <select name="groups[G1].weekday">
+  				<option value="Pondělí" th:selected="${groups_G1_day == 'Pondělí'}">Pondělí</option>
+  				<option value="Úterý" th:selected="${groups_G1_day == 'Úterý'}">Úterý</option>
+  				<option value="Středa" th:selected="${groups_G1_day == 'Středa'}">Středa</option>
+  				<option value="Čtvrtek" th:selected="${groups_G1_day == 'Čtvrtek'}">Čtvrtek</option>
+  				<option value="Pátek" th:selected="${groups_G1_day == 'Pátek'}">Pátek</option>
 			</select>
 
             <label>Čas</label>
-            <input type="text" name="groups[Vlci].time" th:value="${groups_Vlci_time}" placeholder="16:00">
+            <input type="text" name="groups[G1].time" th:value="${groups_G1_time}" placeholder="16:00">
 
             <label>Vedoucí</label>
-            <input type="text" name="groups[Vlci].leader" th:value="${groups_Vlci_leader}">
-
+            <input type="text" name="groups[G1].leader" th:value="${groups_G1_leader}">
+			
+			<label>Barva skupiny</label>
+			<input type="color" name="groups[G1].coreColor" th:value="${groups_G1_coreColor}">
+			
             <label>Obrázek (URL)</label>
-            <input type="text" name="groups[Vlci].leaderImage" th:value="${groups_Vlci_leaderImage}">
+            <input type="text" name="groups[G1].leaderImage" th:value="${groups_G1_leaderImage}" placeholder="Obrázek skupiny nebo vedoucího">
           </div>
 
           <!-- Group 2: Mungové -->
           <div class="group-settings">
-            <h3>Mungové</h3>
+            <h3 th:text="${groups_G2_name}">Mungové</h3>
             <label class="checkbox-label">
-              <input type="checkbox" name="groups[Mungové].enabled" th:checked="${groups_Mungové_enabled}"> Aktivní
+              <input type="checkbox" name="groups[G2].enabled" th:checked="${groups_G2_enabled}"> 
             </label>
-
+			
+			<label>Název skupiny</label>
+			<input type="text" name="groups[G2].name" th:value="${groups_G2_name}">
+			
             <label>Den v týdnu</label>
-			  <select name="groups[Mungové].weekday">
-  				<option value="Pondělí" th:selected="${groups_Mungové_day == 'Pondělí'}">Pondělí</option>
-  				<option value="Úterý" th:selected="${groups_Mungové_day == 'Úterý'}">Úterý</option>
-  				<option value="Středa" th:selected="${groups_Mungové_day == 'Středa'}">Středa</option>
-  				<option value="Čtvrtek" th:selected="${groups_Mungové_day == 'Čtvrtek'}">Čtvrtek</option>
-  				<option value="Pátek" th:selected="${groups_Mungové_day == 'Pátek'}">Pátek</option>
+			  <select name="groups[G2].weekday">
+  				<option value="Pondělí" th:selected="${groups_G2_day == 'Pondělí'}">Pondělí</option>
+  				<option value="Úterý" th:selected="${groups_G2_day == 'Úterý'}">Úterý</option>
+  				<option value="Středa" th:selected="${groups_G2_day == 'Středa'}">Středa</option>
+  				<option value="Čtvrtek" th:selected="${groups_G2_day == 'Čtvrtek'}">Čtvrtek</option>
+  				<option value="Pátek" th:selected="${groups_G2_day == 'Pátek'}">Pátek</option>
 			  </select>
 
             <label>Čas</label>
-            <input type="text" name="groups[Mungové].time" placeholder="16:00" th:value="${groups_Mungové_time}">
+            <input type="text" name="groups[G2].time" placeholder="16:00" th:value="${groups_G2_time}">
 
             <label>Vedoucí</label>
-            <input type="text" name="groups[Mungové].leader" th:value="${groups_Mungové_leader}">
-
+            <input type="text" name="groups[G2].leader" th:value="${groups_G2_leader}">
+			
+			<label>Barva skupiny</label>
+			<input type="color" name="groups[G2].coreColor" th:value="${groups_G2_coreColor}">
+			
             <label>Obrázek (URL)</label>
-            <input type="text" name="groups[Mungové].leaderImage" th:value="${groups_Mungové_leaderImage}">
+            <input type="text" name="groups[G2].leaderImage" th:value="${groups_G2_leaderImage}">
           </div>
 
           <!-- Group 3: Mustangové -->
           <div class="group-settings">
-            <h3>Mustangové</h3>
+            <h3 th:text="${groups_G3_name}">Mustangové</h3>
             <label class="checkbox-label">
-              <input type="checkbox" name="groups[Mustangové].enabled" th:checked="${groups_Mustangové_enabled}"> Aktivní
+              <input type="checkbox" name="groups[G3].enabled" th:checked="${groups_G3_enabled}"> 
             </label>
-
+			
+			<label>Název skupiny</label>
+			<input type="text" name="groups[G3].name" th:value="${groups_G3_name}">
+			
             <label>Den v týdnu</label>
-			<select name="groups[Mustangové].weekday">
-			  <option value="Pondělí" th:selected="${groups_Mustangové_day == 'Pondělí'}">Pondělí</option>
-			  <option value="Úterý" th:selected="${groups_Mustangové_day == 'Úterý'}">Úterý</option>
-			  <option value="Středa" th:selected="${groups_Mustangové_day == 'Středa'}">Středa</option>
-			  <option value="Čtvrtek" th:selected="${groups_Mustangové_day == 'Čtvrtek'}">Čtvrtek</option>
-			  <option value="Pátek" th:selected="${groups_Mustangové_day == 'Pátek'}">Pátek</option>
+			<select name="groups[G3].weekday">
+			  <option value="Pondělí" th:selected="${groups_G3_day == 'Pondělí'}">Pondělí</option>
+			  <option value="Úterý" th:selected="${groups_G3_day == 'Úterý'}">Úterý</option>
+			  <option value="Středa" th:selected="${groups_G3_day == 'Středa'}">Středa</option>
+			  <option value="Čtvrtek" th:selected="${groups_G3_day == 'Čtvrtek'}">Čtvrtek</option>
+			  <option value="Pátek" th:selected="${groups_G3_day == 'Pátek'}">Pátek</option>
 			</select>
 
 
             <label>Čas</label>
-            <input type="text" name="groups[Mustangové].time" placeholder="16:00" th:value="${groups_Mustangové_time}">
+            <input type="text" name="groups[G3].time" placeholder="16:00" th:value="${groups_G3_time}">
 
             <label>Vedoucí</label>
-            <input type="text" name="groups[Mustangové].leader" th:value="${groups_Mustangové_leader}">
+            <input type="text" name="groups[G3].leader" th:value="${groups_G3_leader}">
+
+			<label>Barva skupiny</label>
+			<input type="color" name="groups[G3].coreColor" th:value="${groups_G3_coreColor}">
 
             <label>Obrázek (URL)</label>
-            <input type="text" name="groups[Mustangové].leaderImage" th:value="${groups_Mustangové_leaderImage}">
+            <input type="text" name="groups[G3].leaderImage" th:value="${groups_G3_leaderImage}">
           </div>
 
           <!-- Group 4: Bobři -->
           <div class="group-settings">
-            <h3>Bobři</h3>
+            <h3 th:text="${groups_G4_name}">Bobři</h3>
             <label class="checkbox-label">
-              <input type="checkbox" name="groups[Bobři].enabled" th:checked="${groups_Bobři_enabled}"> Aktivní
+              <input type="checkbox" name="groups[G4].enabled" th:checked="${groups_G4_enabled}"> 
             </label>
 
+			<label>Název skupiny</label>
+			<input type="text" name="groups[G4].name" th:value="${groups_G4_name}">
+
             <label>Den v týdnu</label>
-			<select name="groups[Bobři].weekday">
-			  <option value="Pondělí" th:selected="${groups_Bobři_day == 'Pondělí'}">Pondělí</option>
-			  <option value="Úterý" th:selected="${groups_Bobři_day == 'Úterý'}">Úterý</option>
-			  <option value="Středa" th:selected="${groups_Bobři_day == 'Středa'}">Středa</option>
-			  <option value="Čtvrtek" th:selected="${groups_Bobři_day == 'Čtvrtek'}">Čtvrtek</option>
-			  <option value="Pátek" th:selected="${groups_Bobři_day == 'Pátek'}">Pátek</option>
+			<select name="groups[G4].weekday">
+			  <option value="Pondělí" th:selected="${groups_G4_day == 'Pondělí'}">Pondělí</option>
+			  <option value="Úterý" th:selected="${groups_G4_day == 'Úterý'}">Úterý</option>
+			  <option value="Středa" th:selected="${groups_G4_day == 'Středa'}">Středa</option>
+			  <option value="Čtvrtek" th:selected="${groups_G4_day == 'Čtvrtek'}">Čtvrtek</option>
+			  <option value="Pátek" th:selected="${groups_G4_day == 'Pátek'}">Pátek</option>
 			</select>
 
             <label>Čas</label>
-            <input type="text" name="groups[Bobři].time" placeholder="16:00" th:value="${groups_Bobři_time}">
+            <input type="text" name="groups[G4].time" placeholder="16:00" th:value="${groups_G4_time}">
 
             <label>Vedoucí</label>
-            <input type="text" name="groups[Bobři].leader" th:value="${groups_Bobři_leader}">
+            <input type="text" name="groups[G4].leader" th:value="${groups_G4_leader}">
 
+			<label>Barva skupiny</label>
+			<input type="color" name="groups[G4].coreColor" th:value="${groups_G4_coreColor}">
+			
             <label>Obrázek (URL)</label>
-            <input type="text" name="groups[Bobři].leaderImage" th:value="${groups_Bobři_leaderImage}">
+            <input type="text" name="groups[G4].leaderImage" th:value="${groups_G4_leaderImage}">
           </div>
 
         </div>
