@@ -60,7 +60,7 @@ Recomended to you have PostgreSQL installed and running. Configure the connectio
 ### Admin Panel
 
 ![screenshots](adminPanel.png)
-![screenshots](setup.png)
+![screenshots](setup.png?raw=true&v=2)
 
 ## Important note
 This application is **made for 4 or less groups!**
