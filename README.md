@@ -63,6 +63,6 @@ Recomended to you have PostgreSQL installed and running. Configure the connectio
 ![screenshots](setup.png)
 
 ## Important note
-This application is *made for 4 or less groups!*
+This application is **made for 4 or less groups!**
 
 *Created by Electro-Lite*
