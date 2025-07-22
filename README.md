@@ -60,7 +60,7 @@ Recomended to you have PostgreSQL installed and running. Configure the connectio
 ### Admin Panel
 
 ![screenshots](adminPanel.png)
-![screenshots](setup_v2.png)
+![screenshots](https://github.com/Electro-Lite/SkautRegistrace/blob/main/screenshots/setup_v2.png?raw=true)
 
 ## Important note
 This application is **made for 4 or less groups!**
