@@ -39,7 +39,7 @@ Provides a pleasant UI for parents and an admin panel for building the final ass
 
 ## Database
 
-Make sure you have PostgreSQL installed and running. Configure the connection details in your `application.properties`.
+Recomended to you have PostgreSQL installed and running. Configure the connection details in your `application.properties`.
 
 ---
 
@@ -51,16 +51,17 @@ Make sure you have PostgreSQL installed and running. Configure the connection de
 ---
 
 ## Screenshots
-
+![screenshots](login.png)
 ### Parent UI
 
-![screenshots](images/parent-ui.png)
+![screenshots](overview.png)
+
 
 ### Admin Panel
 
-![screenshots](images/admin-panel.png)
+![screenshots](adminPanel.png)
+![screenshots](setup.png)
 
-*(Replace image paths with actual locations if different.)*
 
 ---
 
@@ -68,18 +69,5 @@ Make sure you have PostgreSQL installed and running. Configure the connection de
 
 - This application was developed for a specific scout group and **is not easily adaptable for other groups** without customization.
 
----
-
-## Contributing
-
-Contributions are welcome! Please submit issues or pull requests.
-
----
-
-## License
-
-[MIT License](LICENSE)
-
----
 
 *Created by Electro-Lite*
