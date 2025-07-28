@@ -60,14 +60,9 @@ Recomended to you have PostgreSQL installed and running. Configure the connectio
 ### Admin Panel
 
 ![screenshots](adminPanel.png)
-![screenshots](setup.png)
+![screenshots](https://github.com/Electro-Lite/SkautRegistrace/blob/main/screenshots/setup_v2.png?raw=true)
 
-
----
-
-## Important Notes
-
-- This application was developed for a specific scout group and **is not easily adaptable for other groups** without customization.
-
+## Important note
+This application is **made for 4 or less groups!**
 
 *Created by Electro-Lite*
