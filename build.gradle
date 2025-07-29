@@ -3,6 +3,7 @@ plugins {
 	id 'war'
 	id 'org.springframework.boot' version '3.5.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.graalvm.buildtools.native' version '0.10.1' // ✅ Add GraalVM Native plugin
 }
 
 group = 'CZ.Scout.PrvniSmeckaOlomouc'
@@ -19,7 +20,7 @@ repositories {
 }
 
 dependencies {
-	// Exclude Tomcat from the web starter
+	// Exclude Tomcat from web starter
 	implementation('org.springframework.boot:spring-boot-starter-web') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
@@ -41,13 +42,12 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.32'
 	annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-	// Uncomment for testing
-	 testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	 testImplementation 'org.springframework.security:spring-security-test'
-	 testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
