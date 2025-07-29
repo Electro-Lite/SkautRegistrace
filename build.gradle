@@ -51,3 +51,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+graalvmNative {
+	    toolchainDetection = false
+    	javaLauncher = javaToolchains.launcherFor {
+        	languageVersion = JavaLanguageVersion.of(21)
+    	}
+}
